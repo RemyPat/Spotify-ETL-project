@@ -114,7 +114,7 @@ def lambda_handler(event, context):
         s3.put_object(Bucket=Bucket,Key=artist_key,Body=artist_content)
     
         
-    #a loop to move the processed to 'raw_data/processed/'folder and delete them from 'raw_data/to_process/'   
+    #a loop to move the processed JSON files to 'raw_data/processed/'folder and delete them from 'raw_data/to_process/'   
     s3_resource = boto3.resource('s3')
     for key in spotify_keys:
         copy_source = {'Bucket': Bucket,'Key': key}
