@@ -79,16 +79,20 @@ def lambda_handler(event, context):
         album_list=album(data)
         artist_list=artist(data)
         song_list=song(data)
-        
+
+        #create an album DataFrame and remove duplicate data
         album_df=pd.DataFrame.from_dict(album_list)
         album_df=album_df.drop_duplicates(subset=['album_id'])
+        album_df['album_release_date']=pd.to_datetime(album_df['album_release_date'])
         
+        #create an artist DataFrame and remove duplicate data
         artist_df=pd.DataFrame.from_dict(artist_list)
         artist_df=artist_df.drop_duplicates(subset=['artist_id'])
         
+        #create a song DataFrame 
         song_df=pd.DataFrame.from_dict(song_list)
         
-        # album_df['album_release_date']=pd.to_datetime(album_df['album_release_date'])
+        
         song_df['song_added']=pd.to_datetime(song_df['song_added'])
         
         song_key='transformed_data/songs_data/song_transformed_'+ str(datetime.now())+'.csv'
